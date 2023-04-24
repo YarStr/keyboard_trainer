@@ -4,7 +4,6 @@ from logic.levels import Levels
 from logic.statistics import Statistics
 import storage.user_data
 
-
 _BEST_TIME = Statistics.BEST_TIME.name
 _MIN_MISTAKES = Statistics.MIN_MISTAKES.name
 
@@ -18,7 +17,8 @@ class UserDataModel(QObject):
 
     def load_user_by_name(self, user_name: str):
         self._user_name = user_name
-        self._stat_block = storage.user_data.get_statistics_from_database(user_name)
+        self._stat_block = storage.user_data.get_statistics_from_database(
+            user_name)
 
     @property
     def user_name(self):
