@@ -1,0 +1,2 @@
+class UnknownWidgetException(Exception):
+    pass
