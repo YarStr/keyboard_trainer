@@ -1,7 +1,7 @@
 from PyQt6 import QtCore
 from PyQt6.QtCore import QObject
 
-from gui.widget_type import WidgetType
+from src.gui.widget_type import WidgetType
 
 
 class UIModel(QObject):

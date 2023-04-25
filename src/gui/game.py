@@ -1,12 +1,12 @@
 from PyQt6 import QtCore
 from PyQt6.QtWidgets import QWidget, QVBoxLayout, QPushButton, QLabel
 
-from gui.ui_elements.game_line_edit import GameLineEdit
-from gui.widget_type import WidgetType
+from src.gui.ui_elements.game_line_edit import GameLineEdit
+from src.gui.widget_type import WidgetType
 
-from logic.game_model import GameModel
-from gui.ui_model import UIModel
-from logic.user_data_model import UserDataModel
+from src.logic.game_model import GameModel
+from src.gui.ui_model import UIModel
+from src.logic.user_data_model import UserDataModel
 
 
 class GameWidget(QWidget):

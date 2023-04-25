@@ -1,14 +1,14 @@
 import unittest
 from unittest.mock import patch, MagicMock
 
-from logic.game_model import GameModel
-from logic.levels import Levels
+from src.logic.game_model import GameModel
+from src.logic.levels import Levels
 
 TEST_STRING = 'I love Python so much!'
 
 
 class TestGameModel(unittest.TestCase):
-    @patch('logic.game_model.storage.levels')
+    @patch('src.logic.game_model.src.storage.levels')
     def setUp(self, mock) -> None:
         mock.get_target_string_by_level = MagicMock(return_value=TEST_STRING)
         self.model = GameModel(Levels.START)

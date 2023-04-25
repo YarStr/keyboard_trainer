@@ -1,9 +1,9 @@
 import unittest
 from unittest.mock import patch, MagicMock
 
-from logic.levels import Levels
-from logic.statistics import Statistics
-from logic.user_data_model import UserDataModel
+from src.logic.levels import Levels
+from src.logic.statistics import Statistics
+from src.logic.user_data_model import UserDataModel
 
 BEST_TIME = Statistics.BEST_TIME.name
 MIN_MISTAKES = Statistics.MIN_MISTAKES.name
@@ -26,7 +26,7 @@ STAT_BLOCK = {
 
 
 class TestGameModel(unittest.TestCase):
-    @patch('logic.user_data_model.storage.user_data')
+    @patch('src.logic.user_data_model.src.storage.user_data')
     def setUp(self, mock) -> None:
         mock.get_statistics_from_database = MagicMock(return_value=STAT_BLOCK)
         self.model = UserDataModel()

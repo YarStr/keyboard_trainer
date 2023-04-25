@@ -2,12 +2,12 @@ from functools import partial
 
 from PyQt6.QtWidgets import QWidget, QVBoxLayout, QPushButton, QLabel
 
-from gui.widget_type import WidgetType
-from logic.statistics import Statistics
-from gui.ui_model import UIModel
-from logic.user_data_model import UserDataModel
+from src.gui.widget_type import WidgetType
+from src.logic.statistics import Statistics
+from src.gui.ui_model import UIModel
+from src.logic.user_data_model import UserDataModel
 
-from storage.levels import Levels
+from src.storage.levels import Levels
 
 
 class LevelWidget(QWidget):

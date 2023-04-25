@@ -1,14 +1,14 @@
 from PyQt6 import QtCore
 from PyQt6.QtWidgets import QWidget, QVBoxLayout
 
-from exceptions.exceptions import UnknownWidgetException
-from gui.widget_type import WidgetType
-from gui.game import GameWidget
-from gui.login import LoginWidget
+from src.exceptions.exceptions import UnknownWidgetException
+from src.gui.widget_type import WidgetType
+from src.gui.game import GameWidget
+from src.gui.login import LoginWidget
 
-from gui.levels import LevelWidget
-from gui.ui_model import UIModel
-from logic.user_data_model import UserDataModel
+from src.gui.levels import LevelWidget
+from src.gui.ui_model import UIModel
+from src.logic.user_data_model import UserDataModel
 
 
 class MainWidget(QWidget):

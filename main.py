@@ -1,6 +1,6 @@
 from PyQt6.QtWidgets import QApplication
 
-from gui.main import MainWidget
+from src.gui.main import MainWidget
 
 if __name__ == '__main__':
     application = QApplication([])

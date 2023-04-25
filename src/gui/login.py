@@ -1,9 +1,9 @@
 from PyQt6.QtWidgets import QWidget, QVBoxLayout, QLineEdit, QPushButton, \
     QLabel
 
-from gui.widget_type import WidgetType
-from gui.ui_model import UIModel
-from logic.user_data_model import UserDataModel
+from src.gui.widget_type import WidgetType
+from src.gui.ui_model import UIModel
+from src.logic.user_data_model import UserDataModel
 
 
 class LoginWidget(QWidget):

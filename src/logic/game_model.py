@@ -3,8 +3,8 @@ import time
 from PyQt6 import QtCore
 from PyQt6.QtCore import QObject
 
-from logic.levels import Levels
-import storage.levels
+from src.logic.levels import Levels
+import src.storage.levels
 
 
 class GameModel(QObject):
@@ -16,7 +16,8 @@ class GameModel(QObject):
     def __init__(self, level: Levels):
         super().__init__()
         self._start_time = None
-        self._target_string = storage.levels.get_target_string_by_level(level)
+        self._target_string = src.storage.levels.get_target_string_by_level(
+            level)
         self._mistakes = 0
         self._is_mistake_still_there = False
         self._timer = QtCore.QTimer()

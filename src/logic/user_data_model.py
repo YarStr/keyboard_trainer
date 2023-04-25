@@ -1,8 +1,8 @@
 from PyQt6.QtCore import QObject
 
-from logic.levels import Levels
-from logic.statistics import Statistics
-import storage.user_data
+from src.logic.levels import Levels
+from src.logic.statistics import Statistics
+import src.storage.user_data
 
 _BEST_TIME = Statistics.BEST_TIME.name
 _MIN_MISTAKES = Statistics.MIN_MISTAKES.name
@@ -17,7 +17,7 @@ class UserDataModel(QObject):
 
     def load_user_by_name(self, user_name: str):
         self._user_name = user_name
-        self._stat_block = storage.user_data.get_statistics_from_database(
+        self._stat_block = src.storage.user_data.get_statistics_from_database(
             user_name)
 
     @property
@@ -47,5 +47,5 @@ class UserDataModel(QObject):
         if best_time is None or str(best_time) > str(time):
             self._stat_block[level_name][_BEST_TIME] = str(time)
 
-        storage.user_data.load_statistics_to_database(
+        src.storage.user_data.load_statistics_to_database(
             self._user_name, self._stat_block)

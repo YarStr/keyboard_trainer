@@ -1,8 +1,8 @@
 import json
 from pathlib import Path
-from config import BASE_DIR
-from logic.levels import Levels
-from logic.statistics import Statistics
+from src.config import BASE_DIR
+from src.logic.levels import Levels
+from src.logic.statistics import Statistics
 
 DATA_PATH = Path(BASE_DIR, "storage", "resources", "users.json")
 
