@@ -21,6 +21,7 @@ class GameWidget(QWidget):
         self._game_model.mistake_fixed.connect(self.on_mistake_fixed)
         self._game_model.game_finished.connect(self.on_game_finished)
         self._game_model.timer_updated.connect(self.on_timer_updated)
+        self._game_model.next_word_chosen.connect(self.highlight_word)
 
         self.layout = QVBoxLayout()
 
@@ -43,9 +44,10 @@ class GameWidget(QWidget):
         self.layout.addWidget(QLabel('Время:'))
         self.layout.addWidget(self.timer_indicator)
 
-        test = QLabel(self._game_model.target_string)
-        test.setStyleSheet('font-size: 16px')
-        self.layout.addWidget(test)
+        self.target_string = self._game_model.target_string
+        self.target_string_label = QLabel(self.target_string)
+        self.target_string_label.setStyleSheet('font-size: 16px')
+        self.layout.addWidget(self.target_string_label)
         self.layout.addWidget(self.input)
 
         self.layout.addWidget(self.start_button)
@@ -69,6 +71,7 @@ class GameWidget(QWidget):
         self.timer_indicator.setText(time.toString("mm:ss"))
 
     def start(self) -> None:
+        self.highlight_word(0)
         self.input.setEnabled(True)
         self._game_model.start_timer()
         self.start_button.setEnabled(False)
@@ -86,3 +89,16 @@ class GameWidget(QWidget):
 
     def update_mistakes_indicator(self, mistakes: int) -> None:
         self.mistakes_indicator.setText(str(mistakes))
+
+    @QtCore.pyqtSlot(int)
+    def highlight_word(self, index):
+
+        words_html = []
+        for number, word in enumerate(self.target_string.split()):
+            if number == index:
+                words_html.append(f"<b>{word}</b>")
+            else:
+                words_html.append(word)
+        sentence_html = " ".join(words_html)
+        print(index)
+        self.target_string_label.setText(sentence_html)

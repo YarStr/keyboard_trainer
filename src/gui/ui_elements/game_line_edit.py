@@ -7,5 +7,7 @@ class GameLineEdit(QLineEdit):
         if event.key() == Qt.Key.Key_Backspace and self.isReadOnly():
             text = self.text()
             self.setText(text[:-1])
+        elif event.key() == Qt.Key.Key_Backspace:
+            pass
         else:
             super().keyPressEvent(event)

@@ -12,6 +12,7 @@ class GameModel(QObject):
     mistake_fixed = QtCore.pyqtSignal()
     game_finished = QtCore.pyqtSignal()
     timer_updated = QtCore.pyqtSignal(QtCore.QTime)
+    next_word_chosen = QtCore.pyqtSignal(int)
 
     def __init__(self, level: Levels):
         super().__init__()
@@ -19,6 +20,7 @@ class GameModel(QObject):
         self._target_string = src.storage.levels.get_target_string_by_level(
             level)
         self._mistakes = 0
+        self._current_word_number = 0
         self._is_mistake_still_there = False
         self._timer = QtCore.QTimer()
         self._time = QtCore.QTime(0, 0)
@@ -53,6 +55,10 @@ class GameModel(QObject):
         elif self._is_mistake_still_there:
             self._is_mistake_still_there = False
             self.mistake_fixed.emit()
+
+        elif string[-1] == ' ':
+            self._current_word_number += 1
+            self.next_word_chosen.emit(self._current_word_number)
 
         elif self._target_string == string:
             self.game_finished.emit()
