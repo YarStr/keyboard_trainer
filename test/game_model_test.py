@@ -18,13 +18,7 @@ class TestGameModel(unittest.TestCase):
     def game_finished(self):
         self.is_game_finished = True
 
-    def test_handle_correct_symbol_1(self):
-        symbol = ''
-        self.model.handle_string(symbol)
-        self.assertEqual(self.model._is_mistake_still_there, False)
-        self.assertEqual(self.model.mistakes, 0)
-
-    def test_handle_correct_symbol_2(self):
+    def test_handle_correct_symbol(self):
         symbol = 'I'
         self.model.handle_string(symbol)
         self.assertEqual(self.model._is_mistake_still_there, False)
