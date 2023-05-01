@@ -2,12 +2,12 @@ import json
 import random
 from pathlib import Path
 from src.config import BASE_DIR
-from src.logic.levels import Levels
+from src.logic.level import Level
 
-DATA_PATH = Path(BASE_DIR, "storage", "resources", "levels.json")
+DATA_PATH = Path(BASE_DIR, 'storage', 'resources', 'levels.json')
 
 
-def get_target_string_by_level(level: Levels) -> str:
+def get_target_string_by_level(level: Level) -> str:
     with open(DATA_PATH, encoding='utf-8') as database:
         lessons = json.load(database)
         lesson_number = random.randint(0, len(lessons[level.name]) - 1)

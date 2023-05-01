@@ -7,7 +7,7 @@ from src.logic.statistics import Statistics
 from src.gui.ui_model import UIModel
 from src.logic.user_data_model import UserDataModel
 
-from src.storage.levels import Levels
+from src.storage.levels import Level
 
 
 class LevelWidget(QWidget):
@@ -28,23 +28,23 @@ class LevelWidget(QWidget):
         return f'Итак, {self._data_model.user_name}, вот твоя статистика!'
 
     def add_level_widgets_to_layout(self, layout: QVBoxLayout):
-        for level in Levels:
+        for level in Level:
             layout.addWidget(self.get_level_button(level))
             for stat in Statistics:
                 layout.addWidget(QLabel(self.get_stat_message(level, stat)))
 
-    def get_level_button(self, level: Levels) -> QPushButton:
+    def get_level_button(self, level: Level) -> QPushButton:
         button = QPushButton(level.value)
         button.clicked.connect(partial(self.start_game, level))
         return button
 
-    def get_stat_message(self, level: Levels, stat: Statistics) -> str:
+    def get_stat_message(self, level: Level, stat: Statistics) -> str:
         value = self._data_model.stat_block[level.name][stat.name]
         stat_name = stat.value
         if value is None:
             value = 'Нет результата'
         return f'{stat_name}: {value}'
 
-    def start_game(self, level: Levels) -> None:
+    def start_game(self, level: Level) -> None:
         self._data_model.current_level = level
         self._ui_model.set_widget(WidgetType.GAME)

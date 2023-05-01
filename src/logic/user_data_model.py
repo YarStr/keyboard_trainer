@@ -1,6 +1,6 @@
 from PyQt6.QtCore import QObject
 
-from src.logic.levels import Levels
+from src.logic.level import Level
 from src.logic.statistics import Statistics
 import src.storage.user_data
 
@@ -33,7 +33,7 @@ class UserDataModel(QObject):
         return self._current_level
 
     @current_level.setter
-    def current_level(self, level: Levels):
+    def current_level(self, level: Level):
         self._current_level = level
 
     def update_stat_by_current_level(self, mistakes: int, time: str) -> None:

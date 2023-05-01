@@ -3,7 +3,7 @@ import time
 from PyQt6 import QtCore
 from PyQt6.QtCore import QObject
 
-from src.logic.levels import Levels
+from src.logic.level import Level
 import src.storage.levels
 
 
@@ -14,7 +14,7 @@ class GameModel(QObject):
     timer_updated = QtCore.pyqtSignal(QtCore.QTime)
     next_word_chosen = QtCore.pyqtSignal(int)
 
-    def __init__(self, level: Levels):
+    def __init__(self, level: Level):
         super().__init__()
         self._start_time = None
         self._target_string = src.storage.levels.get_target_string_by_level(

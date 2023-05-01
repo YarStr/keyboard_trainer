@@ -100,5 +100,4 @@ class GameWidget(QWidget):
             else:
                 words_html.append(word)
         sentence_html = " ".join(words_html)
-        print(index)
         self.target_string_label.setText(sentence_html)

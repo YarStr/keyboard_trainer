@@ -96,5 +96,19 @@
             "BEST_TIME": "00:04",
             "MIN_MISTAKES": 0
         }
+    },
+    "\u0446": {
+        "START": {
+            "BEST_TIME": "00:06",
+            "MIN_MISTAKES": 0
+        },
+        "MIDDLE": {
+            "BEST_TIME": "00:05",
+            "MIN_MISTAKES": 1
+        },
+        "HARD": {
+            "BEST_TIME": null,
+            "MIN_MISTAKES": null
+        }
     }
 }

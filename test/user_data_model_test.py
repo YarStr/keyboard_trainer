@@ -1,7 +1,7 @@
 import unittest
 from unittest.mock import patch, MagicMock
 
-from src.logic.levels import Levels
+from src.logic.level import Level
 from src.logic.statistics import Statistics
 from src.logic.user_data_model import UserDataModel
 
@@ -10,15 +10,15 @@ MIN_MISTAKES = Statistics.MIN_MISTAKES.name
 
 USER_NAME = 'name'
 STAT_BLOCK = {
-    Levels.START.name: {
+    Level.START.name: {
         BEST_TIME: None,
         MIN_MISTAKES: None
     },
-    Levels.MIDDLE.name: {
+    Level.MIDDLE.name: {
         BEST_TIME: '00:04',
         MIN_MISTAKES: 4
     },
-    Levels.HARD.name: {
+    Level.HARD.name: {
         BEST_TIME: '01:34',
         MIN_MISTAKES: 2
     }
@@ -33,51 +33,51 @@ class TestGameModel(unittest.TestCase):
         self.model.load_user_by_name(USER_NAME)
 
     def test_update_none_statistic_fields(self):
-        self.model.current_level = Levels.START
+        self.model.current_level = Level.START
         mistakes = 2
         time = '00:32'
         self.model.update_stat_by_current_level(mistakes, time)
 
         self.assertEqual(
-            self.model.stat_block[Levels.START.name][BEST_TIME], time)
+            self.model.stat_block[Level.START.name][BEST_TIME], time)
         self.assertEqual(
-            self.model.stat_block[Levels.START.name][MIN_MISTAKES], mistakes)
+            self.model.stat_block[Level.START.name][MIN_MISTAKES], mistakes)
 
     def test_update_statistic_fields_with_better_time_and_mistakes(self):
-        self.model.current_level = Levels.MIDDLE
+        self.model.current_level = Level.MIDDLE
         mistakes = 2
         time = '00:02'
         self.model.update_stat_by_current_level(mistakes, time)
 
         self.assertEqual(
-            self.model.stat_block[Levels.MIDDLE.name][BEST_TIME], time)
+            self.model.stat_block[Level.MIDDLE.name][BEST_TIME], time)
         self.assertEqual(
-            self.model.stat_block[Levels.MIDDLE.name][MIN_MISTAKES], mistakes)
+            self.model.stat_block[Level.MIDDLE.name][MIN_MISTAKES], mistakes)
 
     def test_update_statistic_fields_with_better_time_only(self):
-        self.model.current_level = Levels.HARD
+        self.model.current_level = Level.HARD
         mistakes = 5
-        old_mistakes = self.model.stat_block[Levels.HARD.name][MIN_MISTAKES]
+        old_mistakes = self.model.stat_block[Level.HARD.name][MIN_MISTAKES]
         time = '00:02'
         self.model.update_stat_by_current_level(mistakes, time)
 
         self.assertEqual(
-            self.model.stat_block[Levels.HARD.name][BEST_TIME], time)
+            self.model.stat_block[Level.HARD.name][BEST_TIME], time)
         self.assertEqual(
-            self.model.stat_block[Levels.HARD.name][MIN_MISTAKES],
+            self.model.stat_block[Level.HARD.name][MIN_MISTAKES],
             old_mistakes)
 
     def test_update_statistic_fields_with_better_mistakes_only(self):
-        self.model.current_level = Levels.HARD
+        self.model.current_level = Level.HARD
         mistakes = 1
-        old_time = self.model.stat_block[Levels.HARD.name][BEST_TIME]
+        old_time = self.model.stat_block[Level.HARD.name][BEST_TIME]
         time = '20:02'
         self.model.update_stat_by_current_level(mistakes, time)
 
         self.assertEqual(
-            self.model.stat_block[Levels.HARD.name][BEST_TIME], old_time)
+            self.model.stat_block[Level.HARD.name][BEST_TIME], old_time)
         self.assertEqual(
-            self.model.stat_block[Levels.HARD.name][MIN_MISTAKES], mistakes)
+            self.model.stat_block[Level.HARD.name][MIN_MISTAKES], mistakes)
 
 
 if __name__ == '__main__':
