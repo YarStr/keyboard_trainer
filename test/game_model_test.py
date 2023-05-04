@@ -18,40 +18,33 @@ class TestGameModel(unittest.TestCase):
     def game_finished(self):
         self.is_game_finished = True
 
+    def check_handling_input_string(self, string: str, mistakes: int,
+                                    is_mistake_there: bool) -> None:
+        self.model.handle_string(string)
+        self.assertEqual(self.model._is_mistake_still_there, is_mistake_there)
+        self.assertEqual(self.model.mistakes, mistakes)
+
     def test_handle_correct_symbol(self):
-        symbol = 'I'
-        self.model.handle_string(symbol)
-        self.assertEqual(self.model._is_mistake_still_there, False)
-        self.assertEqual(self.model.mistakes, 0)
+        self.check_handling_input_string('I', mistakes=0,
+                                         is_mistake_there=False)
 
     def test_handle_correct_uncompleted_string(self):
-        string = 'I love'
-        self.model.handle_string(string)
-        self.assertEqual(self.model._is_mistake_still_there, False)
-        self.assertEqual(self.model.mistakes, 0)
+        self.check_handling_input_string('I love', mistakes=0,
+                                         is_mistake_there=False)
 
     def test_handle_string_with_mistake_1(self):
-        string = 'Y'
-        self.model.handle_string(string)
-        self.assertEqual(self.model._is_mistake_still_there, True)
-        self.assertEqual(self.model.mistakes, 1)
+        self.check_handling_input_string('Y', mistakes=1,
+                                         is_mistake_there=True)
 
     def test_handle_string_with_mistake_2(self):
-        string = 'I love U'
-        self.model.handle_string(string)
-        self.assertEqual(self.model._is_mistake_still_there, True)
-        self.assertEqual(self.model.mistakes, 1)
+        self.check_handling_input_string('I love U', mistakes=1,
+                                         is_mistake_there=True)
 
     def test_admit_and_correct_a_mistake(self):
-        mistake_string = 'I love U'
-        self.model.handle_string(mistake_string)
-        self.assertEqual(self.model._is_mistake_still_there, True)
-        self.assertEqual(self.model.mistakes, 1)
-
-        fixed_mistake_string = 'I love '
-        self.model.handle_string(fixed_mistake_string)
-        self.assertEqual(self.model._is_mistake_still_there, False)
-        self.assertEqual(self.model.mistakes, 1)
+        self.check_handling_input_string('I love U', mistakes=1,
+                                         is_mistake_there=True)
+        self.check_handling_input_string('I love ', mistakes=1,
+                                         is_mistake_there=False)
 
     def test_handle_correct_completed_string(self):
         self.model.handle_string(TEST_STRING)
