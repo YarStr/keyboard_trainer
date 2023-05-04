@@ -28,7 +28,7 @@ class GameWidget(QWidget):
         self._exit_button = self.get_exit_button()
         self._target_string_label = self.get_target_string_label()
 
-        self.setLayout(self.get_layout_with_all_game_widgets())
+        self.setLayout(self.get_layout_with_all_game_elements())
 
     def connect_game_model_signals(self) -> None:
         self._game_model.mistake_done.connect(self.on_mistake_done)
@@ -58,7 +58,7 @@ class GameWidget(QWidget):
         label.setStyleSheet('font-size: 16px')
         return label
 
-    def get_layout_with_all_game_widgets(self) -> QVBoxLayout:
+    def get_layout_with_all_game_elements(self) -> QVBoxLayout:
         layout = QVBoxLayout()
 
         layout.addWidget(QLabel('Кол-во ошибок:'))
