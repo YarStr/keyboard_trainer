@@ -88,7 +88,7 @@ class GameWidget(QWidget):
 
     @QtCore.pyqtSlot(QtCore.QTime)
     def on_timer_updated(self, time: QtCore.QTime) -> None:
-        self._timer_indicator.setText(time.toString("mm:ss"))
+        self._timer_indicator.setText(time.toString('mm:ss'))
 
     def start(self) -> None:
         self.highlight_word(0)
@@ -104,7 +104,7 @@ class GameWidget(QWidget):
 
     def on_game_finished(self) -> None:
         self._data_model.update_stat_by_current_level(
-            self._game_model.mistakes, self._game_model.time.toString("mm:ss"))
+            self._game_model.mistakes, self._game_model.time.toString('mm:ss'))
         self.exit()
 
     def update_mistakes_indicator(self, mistakes: int) -> None:
@@ -112,11 +112,11 @@ class GameWidget(QWidget):
 
     @QtCore.pyqtSlot(int)
     def highlight_word(self, index: int) -> None:
-        words_html = []
+        highlighted_words = []
         for number, word in enumerate(self._target_string.split()):
             if number == index:
-                words_html.append(f"<b>{word}</b>")
+                highlighted_words.append(f'<b>{word}</b>')
             else:
-                words_html.append(word)
-        sentence_html = " ".join(words_html)
-        self._target_string_label.setText(sentence_html)
+                highlighted_words.append(word)
+        highlighted_sentence = ' '.join(highlighted_words)
+        self._target_string_label.setText(highlighted_sentence)
