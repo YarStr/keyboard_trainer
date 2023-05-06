@@ -1,7 +1,7 @@
 import json
 import random
 from pathlib import Path
-from src.config import BASE_DIR
+from src.base_dir import BASE_DIR
 from src.logic.level import Level
 
 DATA_PATH = Path(BASE_DIR, 'storage', 'resources', 'levels.json')

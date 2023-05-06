@@ -1,6 +1,6 @@
 import json
 from pathlib import Path
-from src.config import BASE_DIR
+from src.base_dir import BASE_DIR
 from src.logic.level import Level
 from src.logic.statistics import Statistics
 

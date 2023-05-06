@@ -1,12 +1,25 @@
+from pathlib import Path
+
 from PyQt6 import QtCore
 from PyQt6.QtWidgets import QWidget, QVBoxLayout, QPushButton, QLabel
 
+from src.base_dir import BASE_DIR
 from src.gui.ui_elements.game_line_edit import GameLineEdit
 from src.gui.widget_type import WidgetType
 
 from src.logic.game_model import GameModel
 from src.gui.ui_model import UIModel
 from src.logic.user_data_model import UserDataModel
+
+import configparser
+
+config = configparser.ConfigParser()
+config.read(Path(BASE_DIR, 'gui/resources/ui_config.ini'))
+
+INPUT_WITH_MISTAKE_STYLE = config['style']['input_with_mistake']
+TIME_FORMAT = config['format']['time']
+START_MISTAKES = config['start_values']['mistakes']
+START_TIME = config['start_values']['time']
 
 
 class GameWidget(QWidget):
@@ -20,8 +33,8 @@ class GameWidget(QWidget):
 
         self._target_string = self._game_model.target_string
 
-        self._mistakes_indicator = QLabel('0')
-        self._timer_indicator = QLabel('00:00')
+        self._mistakes_indicator = QLabel(START_MISTAKES)
+        self._timer_indicator = QLabel(START_TIME)
 
         self._game_line_input = self.get_game_line_input()
         self._start_button = self.get_start_button()
@@ -55,7 +68,7 @@ class GameWidget(QWidget):
 
     def get_target_string_label(self) -> QLabel:
         label = QLabel(self._target_string)
-        label.setStyleSheet('font-size: 16px')
+        label.setProperty('class', 'target-string')
         return label
 
     def get_layout_with_all_game_elements(self) -> QVBoxLayout:
@@ -79,7 +92,7 @@ class GameWidget(QWidget):
     def on_mistake_done(self, mistakes: int) -> None:
         self.update_mistakes_indicator(mistakes)
         self._game_line_input.setReadOnly(True)
-        self._game_line_input.setStyleSheet('background-color: red;')
+        self._game_line_input.setStyleSheet(INPUT_WITH_MISTAKE_STYLE)
 
     @QtCore.pyqtSlot()
     def on_mistake_fixed(self) -> None:
@@ -88,7 +101,7 @@ class GameWidget(QWidget):
 
     @QtCore.pyqtSlot(QtCore.QTime)
     def on_timer_updated(self, time: QtCore.QTime) -> None:
-        self._timer_indicator.setText(time.toString('mm:ss'))
+        self._timer_indicator.setText(time.toString(TIME_FORMAT))
 
     def start(self) -> None:
         self.highlight_word(0)
@@ -104,7 +117,8 @@ class GameWidget(QWidget):
 
     def on_game_finished(self) -> None:
         self._data_model.update_stat_by_current_level(
-            self._game_model.mistakes, self._game_model.time.toString('mm:ss'))
+            self._game_model.mistakes,
+            self._game_model.time.toString(TIME_FORMAT))
         self.exit()
 
     def update_mistakes_indicator(self, mistakes: int) -> None:
