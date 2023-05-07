@@ -7,7 +7,7 @@ from src.base_dir import BASE_DIR
 from src.gui.ui_elements.game_line_edit import GameLineEdit
 from src.gui.widget_type import WidgetType
 
-from src.logic.game_model import GameModel
+from src.logic.learn_game_model import LearnGameModel
 from src.gui.ui_model import UIModel
 from src.logic.user_data_model import UserDataModel
 
@@ -25,7 +25,7 @@ class GameWidget(QWidget):
 
         self._ui_model = ui_model
         self._data_model = data_model
-        self._game_model = GameModel(self._data_model.current_level)
+        self._game_model = LearnGameModel(self._data_model.current_level)
         self.connect_game_model_signals()
 
         self._target_string = self._game_model.target_string
@@ -114,7 +114,8 @@ class GameWidget(QWidget):
         self._ui_model.set_widget(WidgetType.LEVELS)
 
     def react_on_text_change(self) -> None:
-        self._game_model.handle_string(self._game_line_input.text())
+        input_text = self._game_line_input.text()
+        self._game_model.handle_string(input_text)
 
     def on_game_finished(self) -> None:
         self._data_model.update_stat_by_current_level(

@@ -35,6 +35,10 @@ def _get_empty_stat_block() -> dict:
         Level.HARD.name: {
             BEST_TIME: None,
             MIN_MISTAKES: None
+        },
+        Level.BATTLE.name: {
+            BEST_TIME: None,
+            MIN_MISTAKES: None
         }
     }
 
