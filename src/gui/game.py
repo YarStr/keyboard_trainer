@@ -16,10 +16,7 @@ import configparser
 config = configparser.ConfigParser()
 config.read(Path(BASE_DIR, 'gui/resources/ui_config.ini'))
 
-INPUT_WITH_MISTAKE_STYLE = config['style']['input_with_mistake']
 TIME_FORMAT = config['format']['time']
-START_MISTAKES = config['start_values']['mistakes']
-START_TIME = config['start_values']['time']
 
 
 class GameWidget(QWidget):
@@ -33,8 +30,11 @@ class GameWidget(QWidget):
 
         self._target_string = self._game_model.target_string
 
-        self._mistakes_indicator = QLabel(START_MISTAKES)
-        self._timer_indicator = QLabel(START_TIME)
+        start_mistakes = config['start_values']['mistakes']
+        self._mistakes_indicator = QLabel(start_mistakes)
+
+        start_time = config['start_values']['time']
+        self._timer_indicator = QLabel(start_time)
 
         self._game_line_input = self.get_game_line_input()
         self._start_button = self.get_start_button()
@@ -92,7 +92,8 @@ class GameWidget(QWidget):
     def on_mistake_done(self, mistakes: int) -> None:
         self.update_mistakes_indicator(mistakes)
         self._game_line_input.setReadOnly(True)
-        self._game_line_input.setStyleSheet(INPUT_WITH_MISTAKE_STYLE)
+        input_with_mistake_style = config['style']['input_with_mistake']
+        self._game_line_input.setStyleSheet(input_with_mistake_style)
 
     @QtCore.pyqtSlot()
     def on_mistake_fixed(self) -> None:
