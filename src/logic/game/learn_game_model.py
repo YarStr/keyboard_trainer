@@ -22,7 +22,7 @@ class LearnGameModel(GameModel):
 
     def highlight_current_word(self, string) -> None:
         if string and string[-1] == ' ' and not self._is_mistake_done:
-            self._current_word_number = len(string.split()) 
+            self._current_word_number = len(string.split())
             self.next_word_chosen.emit(self._current_word_number)
 
     def handle_string(self, string: str) -> None:
