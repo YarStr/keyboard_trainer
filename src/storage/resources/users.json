@@ -1,20 +1,20 @@
 {
     "w": {
         "START": {
-            "BEST_TIME": "00:04",
+            "BEST_TIME": "00:03",
             "MIN_MISTAKES": 0
         },
         "MIDDLE": {
-            "BEST_TIME": "00:10",
-            "MIN_MISTAKES": 5
+            "BEST_TIME": "00:04",
+            "MIN_MISTAKES": 0
         },
         "HARD": {
-            "BEST_TIME": null,
-            "MIN_MISTAKES": null
+            "BEST_TIME": "00:05",
+            "MIN_MISTAKES": 0
         },
         "BATTLE": {
-            "BEST_TIME": null,
-            "MIN_MISTAKES": null
+            "BEST_TIME": "00:03",
+            "MIN_MISTAKES": 0
         }
     },
     "name": {
@@ -29,6 +29,78 @@
         "HARD": {
             "BEST_TIME": "00:02",
             "MIN_MISTAKES": 1
+        }
+    },
+    "test": {
+        "START": {
+            "BEST_TIME": "00:03",
+            "MIN_MISTAKES": 0
+        },
+        "MIDDLE": {
+            "BEST_TIME": "00:08",
+            "MIN_MISTAKES": 1
+        },
+        "HARD": {
+            "BEST_TIME": "00:07",
+            "MIN_MISTAKES": 1
+        },
+        "BATTLE": {
+            "BEST_TIME": "00:15",
+            "MIN_MISTAKES": 0
+        }
+    },
+    "\u044f\u0440\u043e\u0441\u043b\u0430\u0432": {
+        "START": {
+            "BEST_TIME": null,
+            "MIN_MISTAKES": null
+        },
+        "MIDDLE": {
+            "BEST_TIME": null,
+            "MIN_MISTAKES": null
+        },
+        "HARD": {
+            "BEST_TIME": null,
+            "MIN_MISTAKES": null
+        },
+        "BATTLE": {
+            "BEST_TIME": "00:15",
+            "MIN_MISTAKES": 0
+        }
+    },
+    "\u044e\u043b\u044f": {
+        "START": {
+            "BEST_TIME": null,
+            "MIN_MISTAKES": null
+        },
+        "MIDDLE": {
+            "BEST_TIME": null,
+            "MIN_MISTAKES": null
+        },
+        "HARD": {
+            "BEST_TIME": null,
+            "MIN_MISTAKES": null
+        },
+        "BATTLE": {
+            "BEST_TIME": "00:05",
+            "MIN_MISTAKES": 0
+        }
+    },
+    "\u0446": {
+        "START": {
+            "BEST_TIME": null,
+            "MIN_MISTAKES": null
+        },
+        "MIDDLE": {
+            "BEST_TIME": null,
+            "MIN_MISTAKES": null
+        },
+        "HARD": {
+            "BEST_TIME": null,
+            "MIN_MISTAKES": null
+        },
+        "BATTLE": {
+            "BEST_TIME": null,
+            "MIN_MISTAKES": null
         }
     }
 }

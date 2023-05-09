@@ -8,7 +8,7 @@ from PyQt6.QtCore import QObject
 class GameModel(QObject):
     mistake_done = QtCore.pyqtSignal(int)
     mistake_fixed = QtCore.pyqtSignal()
-    game_finished = QtCore.pyqtSignal()
+    game_finished = QtCore.pyqtSignal(bool)
     timer_updated = QtCore.pyqtSignal(QtCore.QTime)
 
     def __init__(self):

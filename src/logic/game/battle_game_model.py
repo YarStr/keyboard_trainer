@@ -5,7 +5,7 @@ from collections import deque
 
 from PyQt6 import QtCore
 
-from src.logic.game_model import GameModel
+from src.logic.game.game_model import GameModel
 
 
 class MonsterName(Enum):
@@ -24,7 +24,7 @@ class Monster:
 
 def _get_monsters_pool() -> deque[Monster]:
     pool = deque()
-    for _ in range(3):
+    for _ in range(1):
         pool.append(_get_random_monster())
     return pool
 
@@ -37,14 +37,14 @@ def _get_random_monster() -> Monster:
 
 
 def _get_random_speed() -> int:
-    return random.randint(1000, 5000)
+    return random.randint(1000, 2000)
 
 
 class BattleGameModel(GameModel):
     monster_dead = QtCore.pyqtSignal(int)
     highlight_monster_name = QtCore.pyqtSignal(int)
-    game_finished = QtCore.pyqtSignal(bool)
     monster_captured_flag = QtCore.pyqtSignal()
+    monster_added = QtCore.pyqtSignal(Monster)
 
     def __init__(self):
         self._monsters_pool = _get_monsters_pool()
@@ -84,10 +84,11 @@ class BattleGameModel(GameModel):
 
     @QtCore.pyqtSlot()
     def _on_timer_updated(self) -> None:
-        if self._time.minute() == 1:
+        if self._time.second() == 15:
             self.game_finished.emit(True)
-        elif self._time.second() % 10 == 0:
+        elif self._time.second() % 2 == 0:
             self._add_monster()
+            self.monster_added.emit(self._monsters_pool[-1])
 
     def _add_monster(self) -> None:
         self._monsters_pool.append(_get_random_monster())
@@ -96,6 +97,6 @@ class BattleGameModel(GameModel):
     def _on_monster_captured_flag(self):
         self.game_finished.emit(False)
 
-
-if __name__ == '__main__':
-    pass
+    @property
+    def monsters_pool(self):
+        return self._monsters_pool

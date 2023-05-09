@@ -2,7 +2,8 @@ import unittest
 from collections import deque
 from unittest.mock import patch
 
-from src.logic.battle_game_model import BattleGameModel, Monster, MonsterName
+from src.logic.game.battle_game_model import BattleGameModel, Monster, \
+    MonsterName
 
 TEST_DRAGON = Monster(MonsterName.DRAGON, 2000)
 TEST_BEHOLDER = Monster(MonsterName.BEHOLDER, 1000)
@@ -18,7 +19,7 @@ def _get_test_monster_pool() -> deque[Monster]:
 
 
 class TestBattleGameModel(unittest.TestCase):
-    @patch('src.logic.battle_game_model._get_monsters_pool')
+    @patch('src.logic.game.battle_game_model._get_monsters_pool')
     def setUp(self, mock) -> None:
         mock.return_value = _get_test_monster_pool()
         self.model = BattleGameModel()

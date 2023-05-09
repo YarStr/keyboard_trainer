@@ -1,3 +1,4 @@
+from abc import abstractmethod
 from pathlib import Path
 
 from PyQt6 import QtCore
@@ -7,8 +8,8 @@ from src.base_dir import BASE_DIR
 from src.gui.ui_elements.game_line_edit import GameLineEdit
 from src.gui.widget_type import WidgetType
 
-from src.logic.learn_game_model import LearnGameModel
 from src.gui.ui_model import UIModel
+from src.logic.game.game_model import GameModel
 from src.logic.user_data_model import UserDataModel
 
 import configparser
@@ -25,10 +26,7 @@ class GameWidget(QWidget):
 
         self._ui_model = ui_model
         self._data_model = data_model
-        self._game_model = LearnGameModel(self._data_model.current_level)
-        self.connect_game_model_signals()
-
-        self._target_string = self._game_model.target_string
+        self._game_model = self._get_game_model()
 
         start_mistakes = config['start_values']['mistakes']
         self._mistakes_indicator = QLabel(start_mistakes)
@@ -36,40 +34,45 @@ class GameWidget(QWidget):
         start_time = config['start_values']['time']
         self._timer_indicator = QLabel(start_time)
 
-        self._game_line_input = self.get_game_line_input()
-        self._start_button = self.get_start_button()
-        self._exit_button = self.get_exit_button()
-        self._target_string_label = self.get_target_string_label()
+        self._game_line_input = self._get_game_line_input()
+        self._start_button = self._get_start_button()
+        self._exit_button = self._get_exit_button()
+
+        self._target_widget = self._get_target_widget()
+
+        self._connect_game_model_signals()
 
         self.setLayout(self.get_layout_with_all_game_elements())
 
-    def connect_game_model_signals(self) -> None:
+    @abstractmethod
+    def _get_game_model(self) -> GameModel:
+        pass
+
+    @abstractmethod
+    def _get_target_widget(self) -> QWidget:
+        pass
+
+    def _connect_game_model_signals(self) -> None:
         self._game_model.mistake_done.connect(self.on_mistake_done)
         self._game_model.mistake_fixed.connect(self.on_mistake_fixed)
         self._game_model.game_finished.connect(self.on_game_finished)
         self._game_model.timer_updated.connect(self.on_timer_updated)
-        self._game_model.next_word_chosen.connect(self.highlight_word)
 
-    def get_game_line_input(self) -> GameLineEdit:
+    def _get_game_line_input(self) -> GameLineEdit:
         game_line_edit = GameLineEdit()
         game_line_edit.textChanged.connect(self.react_on_text_change)
         game_line_edit.setEnabled(False)
         return game_line_edit
 
-    def get_start_button(self) -> QPushButton:
+    def _get_start_button(self) -> QPushButton:
         button = QPushButton('Старт')
         button.clicked.connect(self.start)
         return button
 
-    def get_exit_button(self) -> QPushButton:
+    def _get_exit_button(self) -> QPushButton:
         button = QPushButton('Выход')
         button.clicked.connect(self.exit)
         return button
-
-    def get_target_string_label(self) -> QLabel:
-        label = QLabel(self._target_string)
-        label.setProperty('class', 'target-string')
-        return label
 
     def get_layout_with_all_game_elements(self) -> QVBoxLayout:
         layout = QVBoxLayout()
@@ -80,7 +83,7 @@ class GameWidget(QWidget):
         layout.addWidget(QLabel('Время:'))
         layout.addWidget(self._timer_indicator)
 
-        layout.addWidget(self._target_string_label)
+        layout.addWidget(self._target_widget)
         layout.addWidget(self._game_line_input)
 
         layout.addWidget(self._start_button)
@@ -105,7 +108,6 @@ class GameWidget(QWidget):
         self._timer_indicator.setText(time.toString(TIME_FORMAT))
 
     def start(self) -> None:
-        self.highlight_word(0)
         self._game_line_input.setEnabled(True)
         self._game_model.start_timer()
         self._start_button.setEnabled(False)
@@ -117,6 +119,7 @@ class GameWidget(QWidget):
         input_text = self._game_line_input.text()
         self._game_model.handle_string(input_text)
 
+    @QtCore.pyqtSlot(bool)
     def on_game_finished(self) -> None:
         self._data_model.update_stat_by_current_level(
             self._game_model.mistakes,
@@ -125,14 +128,3 @@ class GameWidget(QWidget):
 
     def update_mistakes_indicator(self, mistakes: int) -> None:
         self._mistakes_indicator.setText(str(mistakes))
-
-    @QtCore.pyqtSlot(int)
-    def highlight_word(self, index: int) -> None:
-        highlighted_words = []
-        for number, word in enumerate(self._target_string.split()):
-            if number == index:
-                highlighted_words.append(f'<b>{word}</b>')
-            else:
-                highlighted_words.append(word)
-        highlighted_sentence = ' '.join(highlighted_words)
-        self._target_string_label.setText(highlighted_sentence)

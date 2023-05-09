@@ -2,8 +2,9 @@ from PyQt6 import QtCore
 from PyQt6.QtWidgets import QWidget, QVBoxLayout
 
 from src.exceptions.exceptions import UnknownWidgetException
+from src.gui.game.battle_game import BattleGameWidget
 from src.gui.widget_type import WidgetType
-from src.gui.game import GameWidget
+from src.gui.game.learn_game import LearnGameWidget
 from src.gui.login import LoginWidget
 
 from src.gui.levels import LevelWidget
@@ -40,8 +41,10 @@ class MainWidget(QWidget):
                 return LoginWidget(*models)
             case WidgetType.LEVELS:
                 return LevelWidget(*models)
-            case WidgetType.GAME:
-                return GameWidget(*models)
+            case WidgetType.LEARN:
+                return LearnGameWidget(*models)
+            case WidgetType.BATTLE:
+                return BattleGameWidget(*models)
             case _:
                 raise UnknownWidgetException(
                     f'Виджет типа {widget_type} не существует!')
