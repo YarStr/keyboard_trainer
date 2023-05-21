@@ -1,3 +1,5 @@
+from collections import defaultdict
+
 from PyQt6 import QtCore
 from PyQt6.QtWidgets import QWidget, QVBoxLayout
 
@@ -10,6 +12,17 @@ from src.gui.login import LoginWidget
 from src.gui.levels import LevelWidget
 from src.gui.ui_model import UIModel
 from src.logic.user_data_model import UserDataModel
+
+
+def _default_widget_value():
+    raise UnknownWidgetException
+
+
+_widget = defaultdict(_default_widget_value)
+_widget[WidgetType.LOGIN.name] = LoginWidget
+_widget[WidgetType.LEVELS.name] = LevelWidget
+_widget[WidgetType.LEARN.name] = LearnGameWidget
+_widget[WidgetType.BATTLE.name] = BattleGameWidget
 
 
 class MainWidget(QWidget):
@@ -35,16 +48,10 @@ class MainWidget(QWidget):
         self._layout.addWidget(self._widget)
 
     def get_widget_by_type(self, widget_type: WidgetType) -> QWidget:
-        models = self._ui_model, self._data_model
-        match widget_type:
-            case WidgetType.LOGIN:
-                return LoginWidget(*models)
-            case WidgetType.LEVELS:
-                return LevelWidget(*models)
-            case WidgetType.LEARN:
-                return LearnGameWidget(*models)
-            case WidgetType.BATTLE:
-                return BattleGameWidget(*models)
-            case _:
-                raise UnknownWidgetException(
-                    f'Виджет типа {widget_type} не существует!')
+        try:
+            models = self._ui_model, self._data_model
+            return _widget[widget_type.name](*models)
+
+        except UnknownWidgetException:
+            raise NotImplementedError(
+                f'Виджет типа {widget_type} не существует!')
