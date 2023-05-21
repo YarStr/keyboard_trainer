@@ -1,4 +1,5 @@
 from PyQt6 import QtCore
+from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import QWidget, QLabel
 
 from src.gui.game.game import GameWidget
@@ -20,6 +21,7 @@ class LearnGameWidget(GameWidget):
         self._target_string = self._game_model.target_string
         widget = QLabel(self._target_string)
         widget.setProperty('class', 'target-string')
+        widget.setAlignment(Qt.AlignmentFlag.AlignCenter)
         return widget
 
     def _connect_game_model_signals(self) -> None:
