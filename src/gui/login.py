@@ -16,7 +16,7 @@ def _get_hello_label() -> QLabel:
 
 def _get_instruction_label() -> QLabel:
     label = QLabel('Для входа в приложение надо залогиниться:')
-    label.setProperty('class', 'instruction-text')
+    label.setProperty('class', 'main-text')
     label.setAlignment(Qt.AlignmentFlag.AlignHCenter)
     return label
 
