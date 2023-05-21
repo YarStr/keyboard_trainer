@@ -1,3 +1,15 @@
+.hello-text {
+    padding-top: 36px;
+    font-size: 32px;
+    color: #323232;
+}
+
+.instruction-text {
+    font-size: 24px;
+    color: #323232;
+    padding-bottom: 36px;
+}
+
 .main-layout {
     background-color: #F5F5F5;
 }
@@ -9,8 +21,9 @@
 .login-button {
     background-color: #609DF6;
     color: #fff;
-    font-size: 20px;
+    font-size: 24px;
     border-radius: 24px;
+    margin-bottom: 36px;
 }
 
 .login-button:disabled {
@@ -19,4 +32,11 @@
 
 .login-button:hover {
     background-color: #286ed3;
+}
+
+.user-name-input {
+    padding: 0 28px;
+    font-size: 24px;
+    border-radius: 16px;
+    margin: 0 64px 36px 64px;
 }
