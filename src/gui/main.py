@@ -34,6 +34,8 @@ class MainWidget(QWidget):
 
         self._data_model = UserDataModel()
 
+        self.setProperty('class', 'main-layout')
+
         self._layout = QVBoxLayout()
         self._widget = LoginWidget(self._ui_model, self._data_model)
         self._layout.addWidget(self._widget)
