@@ -1,30 +1,29 @@
 import time
+from abc import abstractmethod
 
 from PyQt6 import QtCore
 from PyQt6.QtCore import QObject
-
-from src.logic.level import Level
-import src.storage.levels
 
 
 class GameModel(QObject):
     mistake_done = QtCore.pyqtSignal(int)
     mistake_fixed = QtCore.pyqtSignal()
-    game_finished = QtCore.pyqtSignal()
+    game_finished = QtCore.pyqtSignal(bool)
     timer_updated = QtCore.pyqtSignal(QtCore.QTime)
-    next_word_chosen = QtCore.pyqtSignal(int)
 
-    def __init__(self, level: Level):
+    def __init__(self):
         super().__init__()
         self._start_time = None
-        self._target_string = src.storage.levels.get_target_string_by_level(
-            level)
+        self._target_string = self._get_target_string()
         self._mistakes = 0
-        self._current_word_number = 0
-        self._is_mistake_still_there = False
+        self._is_mistake_done = False
         self._timer = QtCore.QTimer()
         self._time = QtCore.QTime(0, 0)
         self._timer.timeout.connect(self.timer_event)
+
+    @abstractmethod
+    def _get_target_string(self) -> str:
+        pass
 
     def timer_event(self) -> None:
         self._time = self._time.addSecs(1)
@@ -47,18 +46,18 @@ class GameModel(QObject):
         return self._time
 
     def handle_string(self, string: str) -> None:
-        if not self._target_string.startswith(string):
+        if self._target_string.startswith(string):
+            if self._is_mistake_done:
+                self._is_mistake_done = False
+                self.mistake_fixed.emit()
+
+            elif self._target_string == string:
+                self._react_on_word_typed()
+        else:
             self._mistakes += 1
-            self._is_mistake_still_there = True
+            self._is_mistake_done = True
             self.mistake_done.emit(self._mistakes)
 
-        elif self._is_mistake_still_there:
-            self._is_mistake_still_there = False
-            self.mistake_fixed.emit()
-
-        elif string[-1] == ' ':
-            self._current_word_number += 1
-            self.next_word_chosen.emit(self._current_word_number)
-
-        elif self._target_string == string:
-            self.game_finished.emit()
+    @abstractmethod
+    def _react_on_word_typed(self) -> None:
+        pass

@@ -5,3 +5,4 @@ class Level(Enum):
     START = 'Начальный'
     MIDDLE = 'Средний'
     HARD = 'Сложный'
+    BATTLE = 'Сражение'

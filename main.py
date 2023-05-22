@@ -10,6 +10,7 @@ def get_style_sheet() -> str:
 
 if __name__ == '__main__':
     application = QApplication([])
+    application.setApplicationName('Клавиатурный тренажёр')
     application.setStyleSheet(get_style_sheet())
     main_widget = MainWidget()
     main_widget.show()
