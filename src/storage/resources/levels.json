@@ -1,0 +1,17 @@
+{
+  "START": [
+    "aaa aaa aaa aaa aaa",
+    "bbb bbb bbb bbb bbb",
+    "ccc ccc ccc ccc ccc"
+  ],
+  "MIDDLE": [
+    "aabb aabb aabb aabb",
+    "bbcc bbcc bbcc bbcc",
+    "ccaa ccaa ccaa ccaa"
+  ],
+  "HARD": [
+    "abc aabc abbc abcc",
+    "bca bbca bcca bcaa",
+    "cab ccab caab cabb"
+  ]
+}
