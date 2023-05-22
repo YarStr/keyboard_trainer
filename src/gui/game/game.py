@@ -2,6 +2,7 @@ from abc import abstractmethod
 from pathlib import Path
 
 from PyQt6 import QtCore
+from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import QWidget, QVBoxLayout, QPushButton, QLabel
 
 from src.base_dir import BASE_DIR
@@ -20,6 +21,13 @@ config.read(Path(BASE_DIR, 'gui/resources/ui_config.ini'))
 TIME_FORMAT = config['format']['time']
 
 
+def _get_indicator_widget(indicator_text: str) -> QWidget:
+    widget = QLabel(indicator_text)
+    widget.setProperty('class', 'levels-text')
+    widget.setAlignment(Qt.AlignmentFlag.AlignCenter)
+    return widget
+
+
 class GameWidget(QWidget):
     def __init__(self, ui_model: UIModel, data_model: UserDataModel):
         super().__init__()
@@ -29,10 +37,11 @@ class GameWidget(QWidget):
         self._game_model = self._get_game_model()
 
         start_mistakes = config['start_values']['mistakes']
-        self._mistakes_indicator = QLabel(start_mistakes)
+        self._mistakes_indicator = _get_indicator_widget(
+            f'Ошибки: {start_mistakes}')
 
         start_time = config['start_values']['time']
-        self._timer_indicator = QLabel(start_time)
+        self._timer_indicator = _get_indicator_widget(f'Время: {start_time}')
 
         self._game_line_input = self._get_game_line_input()
         self._start_button = self._get_start_button()
@@ -60,35 +69,42 @@ class GameWidget(QWidget):
 
     def _get_game_line_input(self) -> GameLineEdit:
         game_line_edit = GameLineEdit()
+        game_line_edit.setProperty('class', 'game-input')
+        game_line_edit.setFixedSize(746, 140)
         game_line_edit.textChanged.connect(self.react_on_text_change)
         game_line_edit.setEnabled(False)
         return game_line_edit
 
     def _get_start_button(self) -> QPushButton:
         button = QPushButton('Старт')
+        button.setProperty('class', 'login-button')
+        button.setFixedSize(300, 100)
         button.clicked.connect(self.start)
         return button
 
     def _get_exit_button(self) -> QPushButton:
         button = QPushButton('Выход')
+        button.setProperty('class', 'login-button')
+        button.setFixedSize(300, 100)
         button.clicked.connect(self.exit)
         return button
 
     def get_layout_with_all_game_elements(self) -> QVBoxLayout:
         layout = QVBoxLayout()
+        layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
-        layout.addWidget(QLabel('Кол-во ошибок:'))
         layout.addWidget(self._mistakes_indicator)
-
-        layout.addWidget(QLabel('Время:'))
         layout.addWidget(self._timer_indicator)
 
-        layout.addWidget(self._target_widget)
+        layout.addWidget(self._target_widget,
+                         alignment=Qt.AlignmentFlag.AlignCenter)
+
         layout.addWidget(self._game_line_input)
 
-        layout.addWidget(self._start_button)
-        layout.addWidget(self._exit_button)
-
+        layout.addWidget(self._start_button,
+                         alignment=Qt.AlignmentFlag.AlignCenter)
+        layout.addWidget(self._exit_button,
+                         alignment=Qt.AlignmentFlag.AlignCenter)
         return layout
 
     @QtCore.pyqtSlot(int)
@@ -105,7 +121,8 @@ class GameWidget(QWidget):
 
     @QtCore.pyqtSlot(QtCore.QTime)
     def on_timer_updated(self, time: QtCore.QTime) -> None:
-        self._timer_indicator.setText(time.toString(TIME_FORMAT))
+        self._timer_indicator.setText(
+            f'Время: {time.toString(TIME_FORMAT)}')
 
     def start(self) -> None:
         self._game_line_input.setEnabled(True)
@@ -127,4 +144,5 @@ class GameWidget(QWidget):
         self.exit()
 
     def update_mistakes_indicator(self, mistakes: int) -> None:
-        self._mistakes_indicator.setText(str(mistakes))
+        self._mistakes_indicator.setText(
+            f'Ошибки: {mistakes}')
