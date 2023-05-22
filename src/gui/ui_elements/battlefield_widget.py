@@ -80,9 +80,9 @@ class BattlefieldWidget(QWidget):
 
     def paintEvent(self, event):
         painter = QPainter(self)
-        pen = QPen(QColor(255, 0, 0), 5)
+        pen = QPen(QColor(96, 157, 246), 4)
         painter.setPen(pen)
-        painter.drawEllipse(200, 200, 100, 100)
+        painter.drawEllipse(210, 210, 80, 80)
 
     def start(self):
         for monster in self._monsters_pool:
