@@ -39,12 +39,18 @@ class LevelWidget(QWidget):
         return button
 
     def get_stat_message(self, level: Level, stat: Statistics) -> str:
-        value = self._data_model.stat_block[level.name][stat.name]
-        stat_name = stat.value
-        if value is None:
-            value = 'Нет результата'
-        return f'{stat_name}: {value}'
+        if level == Level.BATTLE and stat == Statistics.BEST_TIME:
+            return 'Сразись с монстрами и не допусти ошибок!'
+        else:
+            value = self._data_model.stat_block[level.name][stat.name]
+            stat_name = stat.value
+            if value is None:
+                value = 'Нет результата'
+            return f'{stat_name}: {value}'
 
     def start_game(self, level: Level) -> None:
         self._data_model.current_level = level
-        self._ui_model.set_widget(WidgetType.GAME)
+        if level == level.BATTLE:
+            self._ui_model.set_widget(WidgetType.BATTLE)
+        else:
+            self._ui_model.set_widget(WidgetType.LEARN)
